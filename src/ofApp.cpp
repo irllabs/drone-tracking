@@ -37,12 +37,12 @@ void ofApp::draw(){
         // get and draw the current polyline
         
         ofSetColor(255,0,0);
-        ofPolyline pl = contourFinder.getPolyline(p).getResampledBySpacing(1).getSmoothed(50);
+        ofPolyline pl = contourFinder.getPolyline(p).getResampledBySpacing(1).getSmoothed(20);
         pl.draw();
     
         // find changes of angle of each segment of the contour
         
-        int segmentSize = 30;
+        int segmentSize = 15;
         
         for(int i = 0; i < pl.size(); i += segmentSize) {
 

@@ -2,7 +2,7 @@
 
 void ofApp::setup(){
     
-    ofSetWindowShape(1400, 500);
+    ofSetWindowShape(1080, 540);
     ofSetFullscreen(false);
     ofDisableSmoothing();
     
@@ -13,8 +13,9 @@ void ofApp::setup(){
     artk.setup(camW, camH);
     artk.setThreshold(0);
 
-    scale = 0.4;
     closeSize = 250;
+    
+    sound.loadSound("camera.mp3");
     
 }
 
@@ -103,10 +104,14 @@ void ofApp::draw(){
     
     // draw raw camera feed and thresholded camera feed
     ofSetColor(255,255,255);
-    vid.draw(camW * scale, 0, camW * scale, camH * scale);
-    artkGrayImage.draw(0, 0, camW * scale, camH * scale);
+    vid.draw(camW*CV_PREVIEW_SCALE, 0,
+             camW*IMG_DRAW_SCALE, camH*IMG_DRAW_SCALE);
+    artkGrayImage.draw(0, ofGetHeight()-camH*CV_PREVIEW_SCALE,
+                       camW*CV_PREVIEW_SCALE, camH*CV_PREVIEW_SCALE);
     
-    ofScale(scale,scale,scale);
+    ofPushMatrix();
+    ofTranslate(camW*CV_PREVIEW_SCALE,0,0);
+    ofScale(IMG_DRAW_SCALE,IMG_DRAW_SCALE);
     
     int dronesCount = 0;
     for(std::map<int,TrackedDrone>::iterator iterator = trackedDrones.begin();
@@ -144,18 +149,54 @@ void ofApp::draw(){
         ofRotate(drone.orientation*-57.2957795, 0,0,1);
         ofTranslate(-droneImg.width/2,-droneImg.height/2);
         ofSetColor(255,255,255);
-        droneImg.draw(0,0);
+        //droneImg.draw(0,0);
         ofPopMatrix();
         
         dronesCount++;
         
     }
     
+    ofPopMatrix();
+    
+    // draw camera flash
+    flashTimer-=30;
+    if(flashTimer < 0) {
+        flashTimer = 0;
+    } else {
+        ofSetColor(ofColor(255,255,255,flashTimer));
+        ofRect(0,0,ofGetWidth(),ofGetHeight());
+    }
+    
+}
+
+void ofApp::keyReleased(int key) {
+    
+    if(key == ' ') {
+        exportSceneFrameJSON();
+        flashTimer = 255;
+    }
+    
 }
 
 void ofApp::exportSceneFrameJSON() {
     
+    ofFile newfile(ofToDataPath("coordinates.json"), ofFile::WriteOnly);
+    string time = ofToString(ofGetElapsedTimef());
     
+    
+    
+    /*for(Json::ValueIterator i = untimedData.begin() ; i != untimedData.end(); i++) {
+        string id = i.key().asString();
+        //data[id][time]["position"] = untimedData[id]["position"];
+        //data[ofToString(id)][time]["rotation"] = untimedData[id]["rotation"];
+        cout << data;
+    }*/
+    
+    if (data != ofxJSONElement::null) {
+        newfile << data;
+    }
+    
+    sound.play();
     
 }
 

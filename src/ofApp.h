@@ -5,8 +5,11 @@
 #include "ofxCv.h"
 #include "ofxARToolkitPlus.h"
 #include "ofxLearn.h"
+#include "ofxJSONElement.h"
 
 #define TRACKED_DRONE_TIMEOUT 30
+#define IMG_DRAW_SCALE 0.5
+#define CV_PREVIEW_SCALE 0.1
 
 class TrackedDrone {
     
@@ -28,6 +31,8 @@ public:
     void update();
     void draw();
     
+    void keyReleased(int key);
+    
     std::map<int,TrackedDrone> trackedDrones;
     
     void exportSceneFrameJSON();
@@ -36,9 +41,14 @@ public:
     
     int camW, camH;
     int closeSize;
-    float scale;
+    
+    float flashTimer;
     
     ofVideoGrabber vid;
+    
+    ofSoundPlayer sound;
+    
+    ofxJSONElement data;
     
     ofxCv::ContourFinder contourFinder;
     ofxARToolkitPlus artk;

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4647839A-2FA9-4E6F-AC34-088CDD57C130</string>
+	<key>IDESourceControlProjectName</key>
+	<string>drone-tracker</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B264AC8A7EEAB4F4018E468A67D7B924A7818A33</key>
+		<string>https://github.com/cmuartfab/drone-tracking.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>drone-tracker.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B264AC8A7EEAB4F4018E468A67D7B924A7818A33</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/cmuartfab/drone-tracking.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B264AC8A7EEAB4F4018E468A67D7B924A7818A33</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B264AC8A7EEAB4F4018E468A67D7B924A7818A33</string>
+			<key>IDESourceControlWCCName</key>
+			<string>drone-tracking</string>
+		</dict>
+	</array>
+</dict>
+</plist>

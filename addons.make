@@ -1,2 +1,3 @@
 ofxOpenCv
+ofxARtoolkitPlus
 ofxCv

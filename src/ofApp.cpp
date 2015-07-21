@@ -42,6 +42,15 @@ void ofApp::update(){
     contourFinder.findContours(ofxCv::toCv(contourGrayImage));
     
     // update our list of tracked drones
+    for(std::map<int,TrackedDrone>::iterator iterator = trackedDrones.begin();
+        iterator != trackedDrones.end();
+        iterator++) {
+        
+        TrackedDrone *drone = &iterator->second;
+        drone->detected = false;
+        
+    }
+    
     int nMarkersDetected = artk.getNumDetectedMarkers();
     for(int i = 0; i < nMarkersDetected; i++) {
         
@@ -63,7 +72,28 @@ void ofApp::update(){
         TrackedDrone drone;
         drone.position = position;
         drone.orientation = orientation;
+        drone.detected = true;
+        drone.ticksSinceLastDetection = 0;
         trackedDrones[id] = drone;
+        
+    }
+    
+    for(std::map<int,TrackedDrone>::iterator iterator = trackedDrones.begin();
+        iterator != trackedDrones.end();
+        iterator++) {
+        
+        TrackedDrone *drone = &iterator->second;
+        
+        if(drone->detected) {
+            drone->ticksSinceLastDetection = 0;
+        } else {
+            drone->ticksSinceLastDetection++;
+        }
+        
+        if(drone->ticksSinceLastDetection >= TRACKED_DRONE_TIMEOUT) {
+            std::map<int,TrackedDrone>::iterator it = trackedDrones.find (iterator->first);
+            trackedDrones.erase(it);
+        }
         
     }
     
@@ -86,7 +116,8 @@ void ofApp::draw(){
         int id = iterator->first;
         TrackedDrone drone = iterator->second;
         
-        ofDrawBitmapString("    " +ofToString(id),
+        ofSetColor(255,0,0);
+        ofDrawBitmapString("    " +ofToString(id)+" "+ofToString(drone.ticksSinceLastDetection),
                            drone.position.x,
                            drone.position.y);
         
@@ -119,6 +150,12 @@ void ofApp::draw(){
         dronesCount++;
         
     }
+    
+}
+
+void ofApp::exportSceneFrameJSON() {
+    
+    
     
 }
 

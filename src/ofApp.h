@@ -6,12 +6,17 @@
 #include "ofxARToolkitPlus.h"
 #include "ofxLearn.h"
 
+#define TRACKED_DRONE_TIMEOUT 30
+
 class TrackedDrone {
     
 public:
     
     ofPoint position;
     float orientation;
+    
+    bool detected;
+    int ticksSinceLastDetection;
     
 };
 
@@ -24,6 +29,8 @@ public:
     void draw();
     
     std::map<int,TrackedDrone> trackedDrones;
+    
+    void exportSceneFrameJSON();
     
     void addContourSampleToClassifier(ofxCv::ContourFinder contourFinder);
     

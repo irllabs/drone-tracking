@@ -7,8 +7,20 @@ void ofApp::setup(){
     ofDisableSmoothing();
     
     camW = 1920; camH = 1080;
-    vid.setDeviceID(0);
-    vid.initGrabber(camW, camH);
+    
+    if(USE_LIVE_FEED) {
+        // setup camera
+        liveCam.setDeviceID(0);
+        liveCam.initGrabber(camW, camH);
+    }
+    else {
+        // load a snapshot
+        ofFileDialogResult openFileResult = ofSystemLoadDialog("Select a camera snapshot:",true);
+        
+        if (openFileResult.bSuccess){
+            camSnapshot.loadImage(openFileResult.getPath());
+        }
+    }
     
     artk.setup(camW, camH);
     artk.setThreshold(0);
@@ -21,10 +33,15 @@ void ofApp::setup(){
 
 void ofApp::update(){
     
-    vid.update();
+    liveCam.update();
     
-    // get image from camera
-    colorImage.setFromPixels(vid.getPixels(), camW, camH);
+    // update cv source image
+    if(USE_LIVE_FEED) {
+        colorImage.setFromPixels(liveCam.getPixels(), camW, camH);
+    } else {
+        colorImage.setFromPixels(camSnapshot.getPixels(), camW, camH);
+    }
+    
     contourGrayImage = colorImage;
     artkGrayImage = colorImage;
     
@@ -64,17 +81,51 @@ void ofApp::update(){
         ofQuaternion rotation;
         ofVec3f s;
         ofQuaternion so;
+        
+        // decompose matrix to get quaternion
         h.decompose(v, rotation, s, so);
         
-        // do lots of trig or something to find tracker rotation
+        // do lots of trig or something to find z-rotation from quaternion
         double orientation = atan2(2*(rotation.x()*rotation.y()+rotation.w()*rotation.z()),rotation.w()*rotation.w()+rotation.x()*rotation.x()-rotation.y()*rotation.y()-rotation.z()*rotation.z());
         
-        // update the list
+        // find tracker contour (should just be a square)
+        int trackerContourID = -1;
+        for(int c = 0; c < contourFinder.getContours().size(); c++) {
+            ofPolyline contour = contourFinder.getPolyline(c);
+            if(contour.inside(position)) {
+                trackerContourID = c;
+            }
+        }
+        
+        // find the tracker size from the tracker contour
+        float size = 0;
+        if(trackerContourID != -1) {
+            ofPolyline contour = contourFinder.getPolyline(trackerContourID);
+            
+            for(int p = 0; p < contour.size(); p++) {
+                float d = (contour.getVertices()[p] - position).length();
+                d = abs(d);
+                if(d > size) {
+                    size = d;
+                }
+            }
+        }
+        
+        // find the contour of this drone's classifier
+        int classifierContourID = -1;
+        
+        // update this drone's data in the list
         TrackedDrone drone;
-        drone.position = position;
-        drone.orientation = orientation;
-        drone.detected = true;
-        drone.ticksSinceLastDetection = 0;
+            drone.position = position;
+            drone.orientation = orientation;
+        
+            drone.detected = true;
+            drone.ticksSinceLastDetection = 0;
+        
+            drone.size = size;
+        
+            drone.trackerContourID = trackerContourID;
+            drone.classifierContourID = classifierContourID;
         trackedDrones[id] = drone;
         
     }
@@ -102,10 +153,18 @@ void ofApp::update(){
 
 void ofApp::draw(){
     
-    // draw raw camera feed and thresholded camera feed
+    // draw raw camera feed (or snapshot) and thresholded camera feed
     ofSetColor(255,255,255);
-    vid.draw(camW*CV_PREVIEW_SCALE, 0,
-             camW*IMG_DRAW_SCALE, camH*IMG_DRAW_SCALE);
+    int drawW = camW*IMG_DRAW_SCALE;
+    int drawH = camH*IMG_DRAW_SCALE;
+    
+    if(USE_LIVE_FEED) {
+        liveCam.draw(camW*CV_PREVIEW_SCALE, 0, drawW, drawH);
+    } else {
+        camSnapshot.draw(camW*CV_PREVIEW_SCALE, 0, drawW, drawH);
+    }
+    
+    // draw thresholded cv image
     artkGrayImage.draw(0, ofGetHeight()-camH*CV_PREVIEW_SCALE,
                        camW*CV_PREVIEW_SCALE, camH*CV_PREVIEW_SCALE);
     
@@ -113,6 +172,7 @@ void ofApp::draw(){
     ofTranslate(camW*CV_PREVIEW_SCALE,0,0);
     ofScale(IMG_DRAW_SCALE,IMG_DRAW_SCALE);
     
+    // draw all tracked drones
     int dronesCount = 0;
     for(std::map<int,TrackedDrone>::iterator iterator = trackedDrones.begin();
         iterator != trackedDrones.end();
@@ -131,14 +191,32 @@ void ofApp::draw(){
         ofSetColor(0,255,0);
         ofLine(drone.position.x,
                drone.position.y,
-               drone.position.x + cos(drone.orientation)*150,
-               drone.position.y + sin(drone.orientation)*150);
+               drone.position.x + cos(drone.orientation)*drone.size,
+               drone.position.y + sin(drone.orientation)*drone.size);
         ofSetLineWidth(1);
+        
+        // draw the contour of this drone's tracker
+        if(drone.trackerContourID != -1) {
+            ofPolyline contour = contourFinder.getPolyline(drone.trackerContourID);
+            ofSetColor(255, 0, 0);
+            contour.draw();
+        }
+        
+        // draw the contour of this drone's classifier
+        if(drone.classifierContourID != -1) {
+            ofPolyline contour = contourFinder.getPolyline(drone.classifierContourID);
+            ofSetColor(0, 255, 0);
+            contour.draw();
+        }
         
         // crop the tracker out of the camera image
         ofImage droneImg;
-        droneImg.setFromPixels(vid.getPixelsRef());
-        droneImg.crop(drone.position.x - closeSize /2,
+        if(USE_LIVE_FEED) {
+            droneImg.setFromPixels(liveCam.getPixelsRef());
+        } else {
+            droneImg.setFromPixels(camSnapshot.getPixelsRef());
+        }
+        droneImg.crop(drone.position.x - closeSize / 2,
                       drone.position.y - closeSize / 2,
                       closeSize,
                       closeSize);
@@ -147,7 +225,8 @@ void ofApp::draw(){
         ofPushMatrix();
         ofTranslate(200 + dronesCount*250, 200);
         ofRotate(drone.orientation*-57.2957795, 0,0,1);
-        ofTranslate(-droneImg.width/2,-droneImg.height/2);
+        ofTranslate(-droneImg.width/2,
+                    -droneImg.height/2);
         ofSetColor(255,255,255);
         //droneImg.draw(0,0);
         ofPopMatrix();
@@ -172,8 +251,30 @@ void ofApp::draw(){
 void ofApp::keyReleased(int key) {
     
     if(key == ' ') {
+        
+        // spacebar pressed...
+        
+        // save currently tracked drone data as json
         exportSceneFrameJSON();
+        
+        // save camera feed image as well
+        ofImage i;
+        i.setFromPixels(liveCam.getPixels(), camW, camH, OF_IMAGE_COLOR);
+        i.saveImage("test"+ofGetTimestampString()+".png");
+        
+        // start the 'camera flash' (just for fun)
         flashTimer = 255;
+    }
+    
+    if(key == 'l' && !USE_LIVE_FEED) {
+        
+        // load new snapshot
+        ofFileDialogResult openFileResult = ofSystemLoadDialog("Select a camera snapshot:",true);
+        
+        if (openFileResult.bSuccess){
+            camSnapshot.loadImage(openFileResult.getPath());
+        }
+        
     }
     
 }

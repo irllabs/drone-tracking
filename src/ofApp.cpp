@@ -113,6 +113,32 @@ void ofApp::update(){
         
         // find the contour of this drone's classifier
         int classifierContourID = -1;
+        if(trackerContourID != -1) {
+            ofPoint classifierCenter = ofPoint(position.x + cos(orientation)*size,
+                                               position.y + sin(orientation)*size);
+                                               
+            for(int c = 0; c < contourFinder.getContours().size(); c++) {
+                ofPolyline contour = contourFinder.getPolyline(c);
+                if(contour.inside(classifierCenter)) {
+                    classifierContourID = c;
+                }
+            }
+        }
+        
+        // classify this drone
+        ofPolyline classifierContour;
+        if(classifierContourID != -1) {
+            
+            classifierContour = contourFinder.getPolyline(classifierContourID);
+            ofPoint centroid = classifierContour.getCentroid2D();
+            
+            for(int p = 0; p < classifierContour.size(); p++) {
+                classifierContour.getVertices()[p].rotate(orientation*-57.2,
+                                                          centroid,
+                                                          ofVec3f(0,0,1));
+            }
+            
+        }
         
         // update this drone's data in the list
         TrackedDrone drone;
@@ -126,6 +152,8 @@ void ofApp::update(){
         
             drone.trackerContourID = trackerContourID;
             drone.classifierContourID = classifierContourID;
+        
+            drone.classifierContour = classifierContour;
         trackedDrones[id] = drone;
         
     }
@@ -204,9 +232,8 @@ void ofApp::draw(){
         
         // draw the contour of this drone's classifier
         if(drone.classifierContourID != -1) {
-            ofPolyline contour = contourFinder.getPolyline(drone.classifierContourID);
             ofSetColor(0, 255, 0);
-            contour.draw();
+            drone.classifierContour.draw();
         }
         
         // crop the tracker out of the camera image
@@ -301,7 +328,7 @@ void ofApp::exportSceneFrameJSON() {
     
 }
 
-void ofApp::addContourSampleToClassifier(ofxCv::ContourFinder contourFinder) {
+void ofApp::addContourSampleToClassifier(vector<ofPoint> contour) {
     
     // the format of our samples is as follows:
     // 10 pairs of values, a total of 20 values.

@@ -27,6 +27,8 @@ public:
     int trackerContourID;
     int classifierContourID;
     
+    ofPolyline classifierContour;
+    
 };
 
 class ofApp : public ofBaseApp{
@@ -43,7 +45,7 @@ public:
     
     void exportSceneFrameJSON();
     
-    void addContourSampleToClassifier(ofxCv::ContourFinder contourFinder);
+    void addContourSampleToClassifier(vector<ofPoint> contour);
     
     int camW, camH;
     int closeSize;

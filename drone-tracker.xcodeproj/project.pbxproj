@@ -23,12 +23,14 @@
 		B6840996567E78436F7ECFAB /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B047FF96258DC01792B272DB /* ETF.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		C602002DE761F9B52DB4400A /* ObjectFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE75A3FBA2C2D87D14F06FE6 /* ObjectFinder.cpp */; };
-		CA54E1531B5435AF00590FD8 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA54E1411B5435AF00590FD8 /* jsoncpp.cpp */; };
-		CA54E1551B5435AF00590FD8 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA54E1451B5435AF00590FD8 /* ofxJSONElement.cpp */; };
 		CAC114B81B56B24800CF390E /* ofxTesseract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAC114AE1B56B24800CF390E /* ofxTesseract.cpp */; };
 		CAC114B91B56B24800CF390E /* libtesseract_full_i386.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC114B71B56B24800CF390E /* libtesseract_full_i386.a */; };
 		D3301F6A0B43BB293ED97C1D /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A4DD23693DFAB8EC05FAA5D /* ofxCvShortImage.cpp */; };
 		DBCB84A37F9AECC254870D79 /* Wrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D347FB65D19015303863922A /* Wrappers.cpp */; };
+		DFBEEF641B68F2780014567F /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFBEEF5D1B68F2780014567F /* ofxXmlSettings.cpp */; };
+		DFBEEF651B68F2780014567F /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFBEEF601B68F2780014567F /* tinyxml.cpp */; };
+		DFBEEF661B68F2780014567F /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFBEEF621B68F2780014567F /* tinyxmlerror.cpp */; };
+		DFBEEF671B68F2780014567F /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFBEEF631B68F2780014567F /* tinyxmlparser.cpp */; };
 		DFE601581B5D80D10073379F /* ofxLearn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFE6FD631B5D80D00073379F /* ofxLearn.cpp */; };
 		E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9A16CBF2E8CFE43AF54FE6F5 /* ofxCvHaarFinder.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -251,12 +253,6 @@
 		C66C6414C8B86FDB99ED3B70 /* core.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = core.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/core.hpp; sourceTree = SOURCE_ROOT; };
 		C6E0CD425EA16C7877B3CC0A /* highgui.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = highgui.hpp; path = ../../../addons/ofxCv/src/opencv2/highgui/highgui.hpp; sourceTree = SOURCE_ROOT; };
 		C76DE5C29BDBD2CAA1DD0021 /* ofxCvContourFinder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxCvContourFinder.cpp; path = ../../../addons/ofxOpenCv/src/ofxCvContourFinder.cpp; sourceTree = SOURCE_ROOT; };
-		CA54E13E1B5435AF00590FD8 /* json-forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-forwards.h"; sourceTree = "<group>"; };
-		CA54E13F1B5435AF00590FD8 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
-		CA54E1411B5435AF00590FD8 /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
-		CA54E1441B5435AF00590FD8 /* ofxJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxJSON.h; sourceTree = "<group>"; };
-		CA54E1451B5435AF00590FD8 /* ofxJSONElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxJSONElement.cpp; sourceTree = "<group>"; };
-		CA54E1461B5435AF00590FD8 /* ofxJSONElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxJSONElement.h; sourceTree = "<group>"; };
 		CAC114AE1B56B24800CF390E /* ofxTesseract.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTesseract.cpp; sourceTree = "<group>"; };
 		CAC114AF1B56B24800CF390E /* ofxTesseract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxTesseract.h; sourceTree = "<group>"; };
 		CAC114B31B56B24800CF390E /* baseapi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = baseapi.h; sourceTree = "<group>"; };
@@ -286,6 +282,12 @@
 		DCA4DC4264B1FB24697F09CE /* ts_gtest.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ts_gtest.h; path = ../../../addons/ofxCv/src/opencv2/ts/ts_gtest.h; sourceTree = SOURCE_ROOT; };
 		DCB56F4E9F44E31D571BC9C4 /* index_testing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = index_testing.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/index_testing.h; sourceTree = SOURCE_ROOT; };
 		DEA2EDC0AFD59176FDEDC222 /* ofxCvShortImage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvShortImage.h; path = ../../../addons/ofxOpenCv/src/ofxCvShortImage.h; sourceTree = SOURCE_ROOT; };
+		DFBEEF5D1B68F2780014567F /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		DFBEEF5E1B68F2780014567F /* ofxXmlSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		DFBEEF601B68F2780014567F /* tinyxml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		DFBEEF611B68F2780014567F /* tinyxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		DFBEEF621B68F2780014567F /* tinyxmlerror.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		DFBEEF631B68F2780014567F /* tinyxmlparser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		DFD23C695B884D19DDDF8EEE /* random.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = random.h; path = ../../../addons/ofxCv/src/opencv2/flann/random.h; sourceTree = SOURCE_ROOT; };
 		DFE6FD631B5D80D00073379F /* ofxLearn.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxLearn.cpp; sourceTree = "<group>"; };
 		DFE6FD641B5D80D00073379F /* ofxLearn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxLearn.h; sourceTree = "<group>"; };
@@ -810,12 +812,12 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				CA54E1131B5435AF00590FD8 /* ofxJSON */,
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,
 				42D4F4C6700D8F8FF36E032B /* ofxARtoolkitPlus */,
 				6025FAF6414C2CA589764D26 /* ofxCv */,
 				CAC114AC1B56B24700CF390E /* ofxTesseract */,
 				DFE6FD611B5D80D00073379F /* ofxLearn */,
+				DFBEEF5B1B68F2780014567F /* ofxXmlSettings */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -889,68 +891,6 @@
 				CE81A5E39EB3C871FDF3D4D5 /* ofxOpenCv.h */,
 			);
 			name = src;
-			sourceTree = "<group>";
-		};
-		CA54E1131B5435AF00590FD8 /* ofxJSON */ = {
-			isa = PBXGroup;
-			children = (
-				CA54E13A1B5435AF00590FD8 /* libs */,
-				CA54E1431B5435AF00590FD8 /* src */,
-			);
-			name = ofxJSON;
-			path = ../../../addons/ofxJSON;
-			sourceTree = "<group>";
-		};
-		CA54E13A1B5435AF00590FD8 /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				CA54E13B1B5435AF00590FD8 /* jsoncpp */,
-			);
-			path = libs;
-			sourceTree = "<group>";
-		};
-		CA54E13B1B5435AF00590FD8 /* jsoncpp */ = {
-			isa = PBXGroup;
-			children = (
-				CA54E13C1B5435AF00590FD8 /* include */,
-				CA54E1401B5435AF00590FD8 /* src */,
-			);
-			path = jsoncpp;
-			sourceTree = "<group>";
-		};
-		CA54E13C1B5435AF00590FD8 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				CA54E13D1B5435AF00590FD8 /* json */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		CA54E13D1B5435AF00590FD8 /* json */ = {
-			isa = PBXGroup;
-			children = (
-				CA54E13E1B5435AF00590FD8 /* json-forwards.h */,
-				CA54E13F1B5435AF00590FD8 /* json.h */,
-			);
-			path = json;
-			sourceTree = "<group>";
-		};
-		CA54E1401B5435AF00590FD8 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				CA54E1411B5435AF00590FD8 /* jsoncpp.cpp */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		CA54E1431B5435AF00590FD8 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				CA54E1441B5435AF00590FD8 /* ofxJSON.h */,
-				CA54E1451B5435AF00590FD8 /* ofxJSONElement.cpp */,
-				CA54E1461B5435AF00590FD8 /* ofxJSONElement.h */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		CAC114AC1B56B24700CF390E /* ofxTesseract */ = {
@@ -1076,6 +1016,37 @@
 				AAA97F42C2FE4A31ECFD0585 /* opencv */,
 			);
 			name = libs;
+			sourceTree = "<group>";
+		};
+		DFBEEF5B1B68F2780014567F /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				DFBEEF5C1B68F2780014567F /* src */,
+				DFBEEF5F1B68F2780014567F /* libs */,
+			);
+			name = ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		DFBEEF5C1B68F2780014567F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				DFBEEF5D1B68F2780014567F /* ofxXmlSettings.cpp */,
+				DFBEEF5E1B68F2780014567F /* ofxXmlSettings.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxXmlSettings/src;
+			sourceTree = "<group>";
+		};
+		DFBEEF5F1B68F2780014567F /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				DFBEEF601B68F2780014567F /* tinyxml.cpp */,
+				DFBEEF611B68F2780014567F /* tinyxml.h */,
+				DFBEEF621B68F2780014567F /* tinyxmlerror.cpp */,
+				DFBEEF631B68F2780014567F /* tinyxmlparser.cpp */,
+			);
+			name = libs;
+			path = ../../../addons/ofxXmlSettings/libs;
 			sourceTree = "<group>";
 		};
 		DFE6FD611B5D80D00073379F /* ofxLearn */ = {
@@ -1317,25 +1288,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
-				CA54E1551B5435AF00590FD8 /* ofxJSONElement.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				DFE601581B5D80D10073379F /* ofxLearn.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
 				169D3C72FDE6C5590A1616F5 /* ofxCvFloatImage.cpp in Sources */,
 				FB09C6B2A1DA0EA217240CB8 /* ofxCvGrayscaleImage.cpp in Sources */,
-				CA54E1531B5435AF00590FD8 /* jsoncpp.cpp in Sources */,
 				E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */,
+				DFBEEF671B68F2780014567F /* tinyxmlparser.cpp in Sources */,
 				63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */,
 				CAC114B81B56B24800CF390E /* ofxTesseract.cpp in Sources */,
 				D3301F6A0B43BB293ED97C1D /* ofxCvShortImage.cpp in Sources */,
 				A87CBD4266C65E8EC8D637BF /* ofxARToolkitPlus.cpp in Sources */,
+				DFBEEF661B68F2780014567F /* tinyxmlerror.cpp in Sources */,
+				DFBEEF641B68F2780014567F /* ofxXmlSettings.cpp in Sources */,
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
 				F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */,
 				EBCDE831EFAE08274E799C97 /* Calibration.cpp in Sources */,
 				6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */,
 				45CC483A999BF1065A6B926C /* Distance.cpp in Sources */,
 				5CC34D433F5806179935B89D /* Flow.cpp in Sources */,
+				DFBEEF651B68F2780014567F /* tinyxml.cpp in Sources */,
 				2023EF517ED2D8B397511D4B /* Helpers.cpp in Sources */,
 				311DF864378748129984EA1D /* Kalman.cpp in Sources */,
 				C602002DE761F9B52DB4400A /* ObjectFinder.cpp in Sources */,

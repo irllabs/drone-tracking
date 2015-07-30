@@ -17,7 +17,7 @@ void ofApp::setup(){
         // load a snapshot
         ofFileDialogResult openFileResult = ofSystemLoadDialog("Select a camera snapshot:",true);
         
-        if (openFileResult.bSuccess){
+        if (openFileResult.bSuccess) {
             camSnapshot.loadImage(openFileResult.getPath());
         }
     }
@@ -27,10 +27,16 @@ void ofApp::setup(){
 
     closeSize = 250;
     
+    frame = 0;
+    timeSeconds = 0.0;
+    
+    nTrainingSamples = 0;
+    
     sound.loadSound("camera.mp3");
     
+    classificationData.load("classificationTrainingData.xml");
+    
 }
-
 void ofApp::update(){
     
     liveCam.update();
@@ -38,6 +44,7 @@ void ofApp::update(){
     // update cv source image
     if(USE_LIVE_FEED) {
         colorImage.setFromPixels(liveCam.getPixels(), camW, camH);
+        colorImage.rotate(180, colorImage.width/2, colorImage.height/2);
     } else {
         colorImage.setFromPixels(camSnapshot.getPixels(), camW, camH);
     }
@@ -46,11 +53,11 @@ void ofApp::update(){
     artkGrayImage = colorImage;
     
     // find artk trackers
-    artkGrayImage.threshold(mouseX);
+    artkGrayImage.threshold(15);
     artk.update(artkGrayImage.getPixels());
     
     // find contours
-    contourGrayImage.threshold(mouseX);
+    contourGrayImage.threshold(15);
     contourGrayImage.invert();
     
     contourFinder.setMinArea(300);
@@ -125,18 +132,42 @@ void ofApp::update(){
             }
         }
         
+        // find the altitude of this drone
+        int altitudeContourID = -1;
+        if(trackerContourID != -1) {
+            ofPoint altitudeCenter = ofPoint(position.x + cos(orientation)*size,
+                                               position.y + sin(orientation)*size);
+            
+            for(int c = 0; c < contourFinder.getContours().size(); c++) {
+                ofPolyline contour = contourFinder.getPolyline(c);
+                if(contour.inside(altitudeCenter)) {
+                    altitudeContourID = c;
+                }
+            }
+        }
+        float altitude = 0;
+        if(altitudeContourID != -1) {
+            ofPolyline altitudeContour = contourFinder.getPolyline(altitudeContourID);
+            float farthestDistance = 0;
+            ofPoint farthestDistancePoint;
+            for(int p = 0; p < altitudeContour.size(); p++) {
+                float d = (altitudeContour.getVertices()[p]-position).length();
+                if(d > farthestDistance) {
+                    farthestDistance = d;
+                    farthestDistancePoint = altitudeContour.getVertices()[p];
+                }
+            }
+            altitude = farthestDistancePoint.angle(altitudeContour.getCentroid2D());
+        }
+        
         // classify this drone
         ofPolyline classifierContour;
+        int droneClass = -1;
         if(classifierContourID != -1) {
             
             classifierContour = contourFinder.getPolyline(classifierContourID);
-            ofPoint centroid = classifierContour.getCentroid2D();
             
-            for(int p = 0; p < classifierContour.size(); p++) {
-                classifierContour.getVertices()[p].rotate(orientation*-57.2,
-                                                          centroid,
-                                                          ofVec3f(0,0,1));
-            }
+            droneClass = classifyContour(contourToClassifiableVector(classifierContour, orientation, position));
             
         }
         
@@ -144,6 +175,7 @@ void ofApp::update(){
         TrackedDrone drone;
             drone.position = position;
             drone.orientation = orientation;
+            drone.altitude = altitude;
         
             drone.detected = true;
             drone.ticksSinceLastDetection = 0;
@@ -153,7 +185,7 @@ void ofApp::update(){
             drone.trackerContourID = trackerContourID;
             drone.classifierContourID = classifierContourID;
         
-            drone.classifierContour = classifierContour;
+            drone.droneClass = droneClass;
         trackedDrones[id] = drone;
         
     }
@@ -178,7 +210,6 @@ void ofApp::update(){
     }
     
 }
-
 void ofApp::draw(){
     
     // draw raw camera feed (or snapshot) and thresholded camera feed
@@ -187,7 +218,7 @@ void ofApp::draw(){
     int drawH = camH*IMG_DRAW_SCALE;
     
     if(USE_LIVE_FEED) {
-        liveCam.draw(camW*CV_PREVIEW_SCALE, 0, drawW, drawH);
+        artkGrayImage.draw(camW*CV_PREVIEW_SCALE, 0, drawW, drawH);
     } else {
         camSnapshot.draw(camW*CV_PREVIEW_SCALE, 0, drawW, drawH);
     }
@@ -210,7 +241,11 @@ void ofApp::draw(){
         TrackedDrone drone = iterator->second;
         
         ofSetColor(255,0,0);
-        ofDrawBitmapString("    " +ofToString(id)+" "+ofToString(drone.ticksSinceLastDetection),
+        ofDrawBitmapString("    "
+                           +ofToString(id)+" "
+                           +ofToString(drone.altitude)+" "
+                           +ofToString(drone.ticksSinceLastDetection)+" "
+                           +ofToString(drone.droneClass),
                            drone.position.x,
                            drone.position.y);
         
@@ -232,8 +267,37 @@ void ofApp::draw(){
         
         // draw the contour of this drone's classifier
         if(drone.classifierContourID != -1) {
+            ofPolyline contour = contourFinder.getPolyline(drone.classifierContourID);
+            ofPolyline contourResampled = contour.getResampledByCount(10);
+            
+            
+            // draw closest point on contour to center of tracker
+            int closestIndex = -1;
+            float closestPointDistance = INT32_MAX;
+            for(int p = 0; p < contourResampled.getVertices().size(); p++) {
+                float d = (contourResampled.getVertices()[p]-drone.position).length();
+                if(d < closestPointDistance) {
+                    closestPointDistance = d;
+                    closestIndex = p;
+                }
+            }
+            
+            if(closestIndex != -1) {
+                ofPoint closestPoint = contourResampled.getVertices()[closestIndex];
+                ofSetColor(0, 0, 255);
+                ofCircle(closestPoint.x, closestPoint.y, 5);
+            }
+            
+            // make sure contour is facing correct direction
+            ofPoint centroid = contourResampled.getCentroid2D();
+            for(int p = 0; p < contourResampled.size(); p++) {
+                contourResampled.getVertices()[p].rotate(drone.orientation*-57.2,
+                                                         centroid,
+                                                         ofVec3f(0,0,1));
+            }
             ofSetColor(0, 255, 0);
-            drone.classifierContour.draw();
+            contourResampled.draw();
+            
         }
         
         // crop the tracker out of the camera image
@@ -262,6 +326,9 @@ void ofApp::draw(){
         
     }
     
+    //ofSetColor(255,0,0);
+    //contourFinder.draw();
+    
     ofPopMatrix();
     
     // draw camera flash
@@ -282,15 +349,47 @@ void ofApp::keyReleased(int key) {
         // spacebar pressed...
         
         // save currently tracked drone data as json
-        exportSceneFrameJSON();
+        writeSceneFrameXML();
         
         // save camera feed image as well
-        ofImage i;
-        i.setFromPixels(liveCam.getPixels(), camW, camH, OF_IMAGE_COLOR);
-        i.saveImage("test"+ofGetTimestampString()+".png");
+        if(USE_LIVE_FEED) {
+            ofImage i;
+            i.setFromPixels(liveCam.getPixels(), camW, camH, OF_IMAGE_COLOR);
+            i.saveImage("test"+ofGetTimestampString()+".png");
+        }
         
         // start the 'camera flash' (just for fun)
         flashTimer = 255;
+        
+        // update frame and time
+        frame++;
+        timeSeconds += 1.0;
+        
+    }
+    
+    if(key == 'd') {
+        
+        ofFileDialogResult openFileResult = ofSystemSaveDialog("untitled.xml", "Export drone choreography");
+        
+        if (openFileResult.bSuccess) {
+            trackedDronesXML.save(openFileResult.getPath());
+        }
+        
+        trackedDronesXML.save("drones.xml");
+        
+    }
+    
+    if(key == 'c') {
+        
+        // save classification data
+        writeClassificationData();
+        
+    }
+    
+    if(key == 't') {
+        
+        trainClassifier();
+        
     }
     
     if(key == 'l' && !USE_LIVE_FEED) {
@@ -306,29 +405,86 @@ void ofApp::keyReleased(int key) {
     
 }
 
-void ofApp::exportSceneFrameJSON() {
+void ofApp::writeSceneFrameXML() {
     
     ofFile newfile(ofToDataPath("coordinates.json"), ofFile::WriteOnly);
     string time = ofToString(ofGetElapsedTimef());
     
+    trackedDronesXML.addTag("frame");
+    trackedDronesXML.pushTag("frame", frame);
     
+    trackedDronesXML.addValue("time", timeSeconds);
     
-    /*for(Json::ValueIterator i = untimedData.begin() ; i != untimedData.end(); i++) {
-        string id = i.key().asString();
-        //data[id][time]["position"] = untimedData[id]["position"];
-        //data[ofToString(id)][time]["rotation"] = untimedData[id]["rotation"];
-        cout << data;
-    }*/
-    
-    if (data != ofxJSONElement::null) {
-        newfile << data;
+    int droneCount = 0;
+    for(std::map<int,TrackedDrone>::iterator iterator = trackedDrones.begin();
+        iterator != trackedDrones.end();
+        iterator++) {
+        
+        int id = iterator->first;
+        TrackedDrone drone = iterator->second;
+        
+        trackedDronesXML.addTag("drone");
+        trackedDronesXML.pushTag("drone", droneCount);
+            trackedDronesXML.addValue("id", id);
+            trackedDronesXML.addTag("position");
+            trackedDronesXML.pushTag("position");
+                trackedDronesXML.addValue("x", drone.position.x);
+                trackedDronesXML.addValue("y", drone.position.y);
+                trackedDronesXML.addValue("z", drone.altitude);
+            trackedDronesXML.popTag();
+            trackedDronesXML.addValue("orientation", drone.orientation);
+            trackedDronesXML.addValue("class", drone.droneClass);
+        trackedDronesXML.popTag();
+        
+        droneCount++;
+        
     }
+    
+    trackedDronesXML.popTag();
     
     sound.play();
     
 }
 
-void ofApp::addContourSampleToClassifier(vector<ofPoint> contour) {
+vector<double> ofApp::contourToClassifiableVector(ofPolyline contour, float droneOrientation, ofPoint dronePosition) {
+    
+    // make sure contour is facing correct direction
+    ofPoint c = contour.getCentroid2D();
+    for(int p = 0; p < contour.size(); p++) {
+        contour.getVertices()[p].rotate(droneOrientation*-57.2,
+                                        c,
+                                        ofVec3f(0,0,1));
+    }
+    
+    // normalize entire contour
+    
+    float farthestDistance = 0;
+    ofPoint farthestDistancePoint;
+    for(int p = 0; p < contour.size(); p++) {
+        float d = (contour.getVertices()[p]-c).length();
+        if(d > farthestDistance) {
+            farthestDistance = d;
+            farthestDistancePoint = contour.getVertices()[p];
+        }
+    }
+    for(int i = 0; i < contour.getVertices().size(); i++) {
+        
+        ofVec3f v = contour.getVertices()[i];
+        v /= farthestDistance;
+        contour.getVertices()[i].set(v);
+        
+    }
+    
+    // build the sample vector
+    vector<double> classifiableVector;
+    classifiableVector.push_back(contour.getArea());
+    classifiableVector.push_back(contour.getPerimeter());
+    classifiableVector.push_back(contour.getBoundingBox().getArea());
+    classifiableVector.push_back(contour.getBoundingBox().getPerimeter());
+    return classifiableVector;
+    
+}
+void ofApp::addContourToClassifier(vector<double> contour, int label) {
     
     // the format of our samples is as follows:
     // 10 pairs of values, a total of 20 values.
@@ -336,17 +492,66 @@ void ofApp::addContourSampleToClassifier(vector<ofPoint> contour) {
     // these values are found by resamping a contour to twelve points
     // (two extra points) and calculating the normal.
     
-    {
-        vector<double> shapeSample;
-        // put stuff here
+    // add sample to our classifier
+    classifier.addTrainingInstance(contour, label);
+    
+    
+}
+double ofApp::classifyContour(vector<double> contour) {
+    
+    return classifier.predict(contour);
+    
+}
+
+void ofApp::writeClassificationData() {
+    
+    for(std::map<int,TrackedDrone>::iterator iterator = trackedDrones.begin();
+        iterator != trackedDrones.end();
+        iterator++) {
         
-        int label = 0;
+        int id = iterator->first;
+        TrackedDrone drone = iterator->second;
         
-        // add sample to our classifier
-        classifier.addTrainingInstance(shapeSample, label);
+        classificationData.addTag("trainingSample");
+        classificationData.pushTag("trainingSample",nTrainingSamples);
+        classificationData.addValue("class", (int)(nTrainingSamples/20));
+        vector<double> classifierContour = contourToClassifiableVector(contourFinder.getPolyline((drone.classifierContourID)),drone.orientation,drone.position);
+        for(int i = 0; i < classifierContour.size(); i++) {
+            classificationData.addValue("v"+ofToString(i), classifierContour[i]);
+        }
+        classificationData.popTag();
+        classificationData.save("classificationTrainingData.xml");
+        
+        ofLog() << "wrote classifiction data to file for drone id " << id;
+        ofLog() << "there are " << nTrainingSamples << " samples in the data set.";
+        
+        nTrainingSamples++;
+        
+        break;
+        
+    }
+    
+}
+void ofApp::trainClassifier() {
+    
+    int nSamples = classificationData.getNumTags("trainingSample");
+    ofLog() << nSamples;
+    for(int i = 0; i < nSamples; i++) {
+        vector<double> trainingValues;
+        
+        classificationData.pushTag("trainingSample",i);
+        for(int v = 0; v < 20; v++) {
+            trainingValues.push_back(classificationData.getValue("v"+ofToString(v), 0.0));
+            ofLog() << classificationData.getValue("v"+ofToString(v), 0.0);
+        }
+        
+        classifier.addTrainingInstance(trainingValues, classificationData.getValue("class", -1));
+        
+        ofLog() << classificationData.getValue("class", -1);
+        
+        classificationData.popTag();
     }
     
     classifier.train();
     
 }
-

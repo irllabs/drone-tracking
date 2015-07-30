@@ -5,18 +5,19 @@
 #include "ofxCv.h"
 #include "ofxARToolkitPlus.h"
 #include "ofxLearn.h"
-#include "ofxJSONElement.h"
+#include "ofxXmlSettings.h"
 
 #define TRACKED_DRONE_TIMEOUT 30
 #define IMG_DRAW_SCALE 0.5
 #define CV_PREVIEW_SCALE 0.1
-#define USE_LIVE_FEED false
+#define USE_LIVE_FEED true
 
 class TrackedDrone {
     
 public:
     
     ofPoint position;
+    float altitude;
     float orientation;
     
     bool detected;
@@ -27,7 +28,7 @@ public:
     int trackerContourID;
     int classifierContourID;
     
-    ofPolyline classifierContour;
+    int droneClass;
     
 };
 
@@ -41,23 +42,34 @@ public:
     
     void keyReleased(int key);
     
+    void writeSceneFrameXML();
+    
+    vector<double> contourToClassifiableVector(ofPolyline contour, float droneOrientation, ofPoint dronePosition);
+    void addContourToClassifier(vector<double> contour, int label);
+    double classifyContour(vector<double> contour);
+    
+    void writeClassificationData();
+    void trainClassifier();
+    
     std::map<int,TrackedDrone> trackedDrones;
-    
-    void exportSceneFrameJSON();
-    
-    void addContourSampleToClassifier(vector<ofPoint> contour);
     
     int camW, camH;
     int closeSize;
+    
+    int frame;
+    float timeSeconds;
+    
+    int nTrainingSamples;
     
     float flashTimer;
     
     ofVideoGrabber liveCam;
     ofImage camSnapshot;
     
-    ofSoundPlayer sound;
+    ofxXmlSettings trackedDronesXML;
+    ofxXmlSettings classificationData;
     
-    ofxJSONElement data;
+    ofSoundPlayer sound;
     
     ofxCv::ContourFinder contourFinder;
     ofxARToolkitPlus artk;

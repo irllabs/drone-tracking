@@ -1,0 +1,560 @@
+<trainingSample>
+    <class>0</class>
+    <v0>-2.057312012</v0>
+    <v1>5.904692173</v1>
+    <v2>2.387074232</v2>
+    <v3>6.182704926</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.057312012</v0>
+    <v1>5.904692173</v1>
+    <v2>2.387074232</v2>
+    <v3>6.182704926</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.069091797</v0>
+    <v1>5.993229866</v1>
+    <v2>2.400505781</v2>
+    <v3>6.200958252</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.071777344</v0>
+    <v1>5.983273983</v1>
+    <v2>2.395351410</v2>
+    <v3>6.194263458</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.063171387</v0>
+    <v1>5.976588249</v1>
+    <v2>2.383118629</v2>
+    <v3>6.178062439</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.095275879</v0>
+    <v1>5.805237770</v1>
+    <v2>2.361011982</v2>
+    <v3>6.147075653</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.087219238</v0>
+    <v1>5.775784969</v1>
+    <v2>2.356581450</v2>
+    <v3>6.141002655</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.079162598</v0>
+    <v1>5.772911072</v1>
+    <v2>2.334825754</v2>
+    <v3>6.112892151</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.074340820</v0>
+    <v1>5.799477577</v1>
+    <v2>2.336661577</v2>
+    <v3>6.115249634</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.101867676</v0>
+    <v1>5.816853046</v1>
+    <v2>2.370889664</v2>
+    <v3>6.159614563</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.039733887</v0>
+    <v1>5.931489468</v1>
+    <v2>2.344698668</v2>
+    <v3>6.129043579</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.048095703</v0>
+    <v1>5.959277630</v1>
+    <v2>2.353544712</v2>
+    <v3>6.140483856</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.041259766</v0>
+    <v1>5.912094593</v1>
+    <v2>2.343609095</v2>
+    <v3>6.127510071</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.048583984</v0>
+    <v1>5.896296024</v1>
+    <v2>2.343987226</v2>
+    <v3>6.128120422</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.047302246</v0>
+    <v1>5.914135933</v1>
+    <v2>2.352273941</v2>
+    <v3>6.138904572</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.103942871</v0>
+    <v1>5.933848858</v1>
+    <v2>2.386439800</v2>
+    <v3>6.180290222</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.036926270</v0>
+    <v1>5.859883308</v1>
+    <v2>2.329481840</v2>
+    <v3>6.106193542</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.042236328</v0>
+    <v1>5.875787735</v1>
+    <v2>2.341305256</v2>
+    <v3>6.122058868</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.053405762</v0>
+    <v1>5.883588791</v1>
+    <v2>2.544663191</v2>
+    <v3>6.381191254</v3>
+</trainingSample>
+<trainingSample>
+    <class>0</class>
+    <v0>-2.067382812</v0>
+    <v1>5.919925213</v1>
+    <v2>2.356301069</v2>
+    <v3>6.141368866</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.979644775</v0>
+    <v1>4.679545879</v1>
+    <v2>1.834761739</v2>
+    <v3>5.523990631</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.957153320</v0>
+    <v1>4.602385521</v1>
+    <v2>1.807574272</v2>
+    <v3>5.482849121</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.957153320</v0>
+    <v1>4.602385521</v1>
+    <v2>1.807574272</v2>
+    <v3>5.482849121</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.920501709</v0>
+    <v1>4.506637096</v1>
+    <v2>1.778300524</v2>
+    <v3>5.439407349</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.957092285</v0>
+    <v1>4.536162376</v1>
+    <v2>1.872509360</v2>
+    <v3>5.560710907</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.957092285</v0>
+    <v1>4.536162376</v1>
+    <v2>1.872509360</v2>
+    <v3>5.560710907</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.939086914</v0>
+    <v1>4.496170998</v1>
+    <v2>1.836777449</v2>
+    <v3>5.512924194</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.994720459</v0>
+    <v1>4.595682621</v1>
+    <v2>1.952989221</v2>
+    <v3>5.671123505</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.943756104</v0>
+    <v1>4.694881439</v1>
+    <v2>1.900224805</v2>
+    <v3>5.601020813</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.963714600</v0>
+    <v1>4.733997345</v1>
+    <v2>1.910863280</v2>
+    <v3>5.608081818</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.952514648</v0>
+    <v1>4.708854675</v1>
+    <v2>1.868426681</v2>
+    <v3>5.545448303</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.948822021</v0>
+    <v1>4.762816429</v1>
+    <v2>1.899723053</v2>
+    <v3>5.599979401</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.971984863</v0>
+    <v1>4.581166744</v1>
+    <v2>1.904846072</v2>
+    <v3>5.609027863</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-1.005706787</v0>
+    <v1>4.538742542</v1>
+    <v2>1.944298744</v2>
+    <v3>5.647468567</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.991668701</v0>
+    <v1>4.573985100</v1>
+    <v2>1.923397541</v2>
+    <v3>5.628643036</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.980377197</v0>
+    <v1>4.702246666</v1>
+    <v2>1.990347862</v2>
+    <v3>5.716053009</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.973754883</v0>
+    <v1>4.656435013</v1>
+    <v2>1.827835798</v2>
+    <v3>5.511154175</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.957366943</v0>
+    <v1>4.637836456</v1>
+    <v2>1.813451886</v2>
+    <v3>5.501724243</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.988922119</v0>
+    <v1>4.647772789</v1>
+    <v2>1.878756285</v2>
+    <v3>5.574806213</v3>
+</trainingSample>
+<trainingSample>
+    <class>1</class>
+    <v0>-0.968353271</v0>
+    <v1>4.612254620</v1>
+    <v2>1.814859986</v2>
+    <v3>5.491638184</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.593017578</v0>
+    <v1>6.162292957</v1>
+    <v2>3.476932049</v2>
+    <v3>7.465888977</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.651733398</v0>
+    <v1>6.208863258</v1>
+    <v2>3.567741394</v2>
+    <v3>7.559616089</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.580322266</v0>
+    <v1>6.074356079</v1>
+    <v2>3.461236715</v2>
+    <v3>7.449020386</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.633178711</v0>
+    <v1>6.133713722</v1>
+    <v2>3.530282736</v2>
+    <v3>7.521514893</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.575805664</v0>
+    <v1>6.033190727</v1>
+    <v2>3.513258696</v2>
+    <v3>7.500076294</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.617309570</v0>
+    <v1>6.206957817</v1>
+    <v2>3.526383162</v2>
+    <v3>7.515075684</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.521362305</v0>
+    <v1>6.120069504</v1>
+    <v2>3.402338266</v2>
+    <v3>7.387184143</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.603881836</v0>
+    <v1>6.201448441</v1>
+    <v2>3.447410345</v2>
+    <v3>7.436073303</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.635498047</v0>
+    <v1>6.325282574</v1>
+    <v2>3.485052824</v2>
+    <v3>7.470603943</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.532226562</v0>
+    <v1>6.263269901</v1>
+    <v2>3.297280073</v2>
+    <v3>7.269805908</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.559204102</v0>
+    <v1>6.155661583</v1>
+    <v2>3.446943760</v2>
+    <v3>7.434532166</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.386108398</v0>
+    <v1>6.120677948</v1>
+    <v2>3.253733873</v2>
+    <v3>7.231216431</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.612060547</v0>
+    <v1>6.221587658</v1>
+    <v2>3.501397371</v2>
+    <v3>7.490158081</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.609497070</v0>
+    <v1>6.194331646</v1>
+    <v2>3.503216028</v2>
+    <v3>7.491325378</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.715332031</v0>
+    <v1>6.256241322</v1>
+    <v2>3.580566645</v2>
+    <v3>7.572143555</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.608154297</v0>
+    <v1>6.125342846</v1>
+    <v2>3.475165606</v2>
+    <v3>7.462059021</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.661376953</v0>
+    <v1>6.262628555</v1>
+    <v2>3.618061304</v2>
+    <v3>7.609222412</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.638305664</v0>
+    <v1>6.336962700</v1>
+    <v2>3.616457939</v2>
+    <v3>7.608360291</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.670410156</v0>
+    <v1>6.312545776</v1>
+    <v2>3.661803484</v2>
+    <v3>7.655944824</v3>
+</trainingSample>
+<trainingSample>
+    <class>2</class>
+    <v0>-2.670532227</v0>
+    <v1>6.306626797</v1>
+    <v2>3.640737534</v2>
+    <v3>7.633911133</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.062377930</v0>
+    <v1>5.719994545</v1>
+    <v2>2.095749378</v2>
+    <v3>5.794181824</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.068847656</v0>
+    <v1>5.817839622</v1>
+    <v2>2.104238749</v2>
+    <v3>5.805854797</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.053344727</v0>
+    <v1>5.735108376</v1>
+    <v2>2.066252708</v2>
+    <v3>5.753288269</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-0.977844238</v0>
+    <v1>5.493401051</v1>
+    <v2>1.967167020</v2>
+    <v3>5.614822388</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-0.991821289</v0>
+    <v1>5.572603226</v1>
+    <v2>1.996385098</v2>
+    <v3>5.655570984</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-0.987121582</v0>
+    <v1>5.648300171</v1>
+    <v2>2.012230873</v2>
+    <v3>5.677169800</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-0.986999512</v0>
+    <v1>5.492289543</v1>
+    <v2>1.970003128</v2>
+    <v3>5.619560242</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.017395020</v0>
+    <v1>5.476391315</v1>
+    <v2>2.013833284</v2>
+    <v3>5.682682037</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.006591797</v0>
+    <v1>5.510227203</v1>
+    <v2>2.005325794</v2>
+    <v3>5.670734406</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.051757812</v0>
+    <v1>5.743250370</v1>
+    <v2>2.069217682</v2>
+    <v3>5.758327484</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.048278809</v0>
+    <v1>5.606707096</v1>
+    <v2>1.993627906</v2>
+    <v3>5.652374268</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.043273926</v0>
+    <v1>5.587056637</v1>
+    <v2>2.014493227</v2>
+    <v3>5.683326721</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.063110352</v0>
+    <v1>5.626818657</v1>
+    <v2>2.033908367</v2>
+    <v3>5.713211060</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.057739258</v0>
+    <v1>5.616250992</v1>
+    <v2>2.053956747</v2>
+    <v3>5.738582611</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.078308105</v0>
+    <v1>5.710432529</v1>
+    <v2>2.073299408</v2>
+    <v3>5.765804291</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.071258545</v0>
+    <v1>5.712543011</v1>
+    <v2>2.055555105</v2>
+    <v3>5.744861603</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.064880371</v0>
+    <v1>5.681873798</v1>
+    <v2>2.050611019</v2>
+    <v3>5.736728668</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.059570312</v0>
+    <v1>5.593909264</v1>
+    <v2>2.002422810</v2>
+    <v3>5.666965485</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.071228027</v0>
+    <v1>5.561290741</v1>
+    <v2>2.091458797</v2>
+    <v3>5.788349152</v3>
+</trainingSample>
+<trainingSample>
+    <class>3</class>
+    <v0>-1.030151367</v0>
+    <v1>5.605352402</v1>
+    <v2>2.071275234</v2>
+    <v3>5.758403778</v3>
+</trainingSample>

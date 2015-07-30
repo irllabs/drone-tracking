@@ -8,7 +8,7 @@
 #include "ofxXmlSettings.h"
 
 #define TRACKED_DRONE_TIMEOUT 30
-#define IMG_DRAW_SCALE 0.5
+#define IMG_DRAW_SCALE 1
 #define CV_PREVIEW_SCALE 0.1
 #define USE_LIVE_FEED true
 

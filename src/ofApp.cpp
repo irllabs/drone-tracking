@@ -6,7 +6,7 @@ void ofApp::setup(){
     ofSetFullscreen(false);
     ofDisableSmoothing();
     
-    camW = 1920; camH = 1080;
+    camW = 640; camH = 480;
     
     if(USE_LIVE_FEED) {
         // setup camera
@@ -53,7 +53,7 @@ void ofApp::update(){
     artkGrayImage = colorImage;
     
     // find artk trackers
-    artkGrayImage.threshold(15);
+    artkGrayImage.threshold(mouseX);
     artk.update(artkGrayImage.getPixels());
     
     // find contours
@@ -83,14 +83,24 @@ void ofApp::update(){
         int id = artk.getMarkerID(i);
         
         // get the matrix for this marker from artk
-        ofMatrix4x4 h = artk.getMatrix(i);
+        ofMatrix4x4 h = artk.getOrientationMatrix(i);
         ofVec3f v;
         ofQuaternion rotation;
         ofVec3f s;
         ofQuaternion so;
         
+        vector<ofPoint> corners;
+        artk.getDetectedMarkerBorderCorners(i, corners);
+        vector<ofPoint> displayImageCorners;
+        displayImageCorners.push_back(ofPoint(0, 0));
+        displayImageCorners.push_back(ofPoint(100, 0));
+        displayImageCorners.push_back(ofPoint(100,100));
+        displayImageCorners.push_back(ofPoint(0, 100));
+        ofMatrix4x4 hom = artk.getHomography(i, displayImageCorners);
+        
         // decompose matrix to get quaternion
-        h.decompose(v, rotation, s, so);
+        //h.decompose(v, rotation, s, so);
+        hom.decompose(v, rotation, s, so);
         
         // do lots of trig or something to find z-rotation from quaternion
         double orientation = atan2(2*(rotation.x()*rotation.y()+rotation.w()*rotation.z()),rotation.w()*rotation.w()+rotation.x()*rotation.x()-rotation.y()*rotation.y()-rotation.z()*rotation.z());

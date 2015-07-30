@@ -1,6 +1,6 @@
 # Drone Scene Composer
 
-A small app made by Ralph and Zach to compose live quadcopter perfomances.<br /><br />
+A small app made by Ralph and Zach to compose live quadcopter perfomances.<br />
 
 You need the following addons:<br />
 <a href="https://github.com/jefftimesten/ofxJSON">ofxJSON<br />

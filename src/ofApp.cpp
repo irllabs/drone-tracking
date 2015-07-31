@@ -6,7 +6,7 @@ void ofApp::setup(){
     ofSetFullscreen(false);
     ofDisableSmoothing();
     
-    camW = 640; camH = 480;
+    camW = 640*1.5; camH = 480*1.5;
     
     if(USE_LIVE_FEED) {
         // setup camera
@@ -53,14 +53,14 @@ void ofApp::update(){
     artkGrayImage = colorImage;
     
     // find artk trackers
-    artkGrayImage.threshold(mouseX);
+    artkGrayImage.threshold(15);
     artk.update(artkGrayImage.getPixels());
     
     // find contours
     contourGrayImage.threshold(15);
     contourGrayImage.invert();
     
-    contourFinder.setMinArea(300);
+    contourFinder.setMinArea(100);
     contourFinder.setMaxArea(camW*camH);
     contourFinder.setSortBySize(true);
     

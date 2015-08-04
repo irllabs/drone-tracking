@@ -358,7 +358,7 @@ void ofApp::keyReleased(int key) {
         
         // spacebar pressed...
         
-        // save currently tracked drone data as json
+        // save currently tracked drone data as xml
         writeSceneFrameXML();
         
         // save camera feed image as well
@@ -417,7 +417,6 @@ void ofApp::keyReleased(int key) {
 
 void ofApp::writeSceneFrameXML() {
     
-    ofFile newfile(ofToDataPath("coordinates.json"), ofFile::WriteOnly);
     string time = ofToString(ofGetElapsedTimef());
     
     trackedDronesXML.addTag("frame");

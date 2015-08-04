@@ -23,8 +23,6 @@
 		B6840996567E78436F7ECFAB /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B047FF96258DC01792B272DB /* ETF.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		C602002DE761F9B52DB4400A /* ObjectFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE75A3FBA2C2D87D14F06FE6 /* ObjectFinder.cpp */; };
-		CAC114B81B56B24800CF390E /* ofxTesseract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAC114AE1B56B24800CF390E /* ofxTesseract.cpp */; };
-		CAC114B91B56B24800CF390E /* libtesseract_full_i386.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC114B71B56B24800CF390E /* libtesseract_full_i386.a */; };
 		D3301F6A0B43BB293ED97C1D /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A4DD23693DFAB8EC05FAA5D /* ofxCvShortImage.cpp */; };
 		DBCB84A37F9AECC254870D79 /* Wrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D347FB65D19015303863922A /* Wrappers.cpp */; };
 		DFBEEF641B68F2780014567F /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFBEEF5D1B68F2780014567F /* ofxXmlSettings.cpp */; };
@@ -253,11 +251,6 @@
 		C66C6414C8B86FDB99ED3B70 /* core.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = core.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/core.hpp; sourceTree = SOURCE_ROOT; };
 		C6E0CD425EA16C7877B3CC0A /* highgui.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = highgui.hpp; path = ../../../addons/ofxCv/src/opencv2/highgui/highgui.hpp; sourceTree = SOURCE_ROOT; };
 		C76DE5C29BDBD2CAA1DD0021 /* ofxCvContourFinder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxCvContourFinder.cpp; path = ../../../addons/ofxOpenCv/src/ofxCvContourFinder.cpp; sourceTree = SOURCE_ROOT; };
-		CAC114AE1B56B24800CF390E /* ofxTesseract.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTesseract.cpp; sourceTree = "<group>"; };
-		CAC114AF1B56B24800CF390E /* ofxTesseract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxTesseract.h; sourceTree = "<group>"; };
-		CAC114B31B56B24800CF390E /* baseapi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = baseapi.h; sourceTree = "<group>"; };
-		CAC114B41B56B24800CF390E /* thresholder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = thresholder.h; sourceTree = "<group>"; };
-		CAC114B71B56B24800CF390E /* libtesseract_full_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract_full_i386.a; sourceTree = "<group>"; };
 		CBDE84185E2969BA4AB209FC /* general.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = general.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/general.h; sourceTree = SOURCE_ROOT; };
 		CC455256CE0ECFE328853737 /* fdog.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fdog.h; path = ../../../addons/ofxCv/libs/CLD/include/CLD/fdog.h; sourceTree = SOURCE_ROOT; };
 		CD8565F2F122EECA0C095526 /* types_c.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = types_c.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/types_c.h; sourceTree = SOURCE_ROOT; };
@@ -351,7 +344,6 @@
 				E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */,
 				E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */,
 				E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */,
-				CAC114B91B56B24800CF390E /* libtesseract_full_i386.a in Frameworks */,
 				E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */,
 				E45BE97D0E8CC7DD009D7055 /* AudioToolbox.framework in Frameworks */,
 				E45BE97F0E8CC7DD009D7055 /* CoreAudio.framework in Frameworks */,
@@ -815,7 +807,6 @@
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,
 				42D4F4C6700D8F8FF36E032B /* ofxARtoolkitPlus */,
 				6025FAF6414C2CA589764D26 /* ofxCv */,
-				CAC114AC1B56B24700CF390E /* ofxTesseract */,
 				DFE6FD611B5D80D00073379F /* ofxLearn */,
 				DFBEEF5B1B68F2780014567F /* ofxXmlSettings */,
 			);
@@ -891,68 +882,6 @@
 				CE81A5E39EB3C871FDF3D4D5 /* ofxOpenCv.h */,
 			);
 			name = src;
-			sourceTree = "<group>";
-		};
-		CAC114AC1B56B24700CF390E /* ofxTesseract */ = {
-			isa = PBXGroup;
-			children = (
-				CAC114AD1B56B24800CF390E /* src */,
-				CAC114B01B56B24800CF390E /* libs */,
-			);
-			name = ofxTesseract;
-			sourceTree = "<group>";
-		};
-		CAC114AD1B56B24800CF390E /* src */ = {
-			isa = PBXGroup;
-			children = (
-				CAC114AE1B56B24800CF390E /* ofxTesseract.cpp */,
-				CAC114AF1B56B24800CF390E /* ofxTesseract.h */,
-			);
-			name = src;
-			path = ../../../addons/ofxTesseract/src;
-			sourceTree = "<group>";
-		};
-		CAC114B01B56B24800CF390E /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				CAC114B11B56B24800CF390E /* tesseract */,
-			);
-			name = libs;
-			path = ../../../addons/ofxTesseract/libs;
-			sourceTree = "<group>";
-		};
-		CAC114B11B56B24800CF390E /* tesseract */ = {
-			isa = PBXGroup;
-			children = (
-				CAC114B21B56B24800CF390E /* include */,
-				CAC114B51B56B24800CF390E /* lib */,
-			);
-			path = tesseract;
-			sourceTree = "<group>";
-		};
-		CAC114B21B56B24800CF390E /* include */ = {
-			isa = PBXGroup;
-			children = (
-				CAC114B31B56B24800CF390E /* baseapi.h */,
-				CAC114B41B56B24800CF390E /* thresholder.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		CAC114B51B56B24800CF390E /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				CAC114B61B56B24800CF390E /* osx */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		CAC114B61B56B24800CF390E /* osx */ = {
-			isa = PBXGroup;
-			children = (
-				CAC114B71B56B24800CF390E /* libtesseract_full_i386.a */,
-			);
-			path = osx;
 			sourceTree = "<group>";
 		};
 		D0CAFE48EE488EEED9149670 /* objdetect */ = {
@@ -1297,7 +1226,6 @@
 				E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */,
 				DFBEEF671B68F2780014567F /* tinyxmlparser.cpp in Sources */,
 				63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */,
-				CAC114B81B56B24800CF390E /* ofxTesseract.cpp in Sources */,
 				D3301F6A0B43BB293ED97C1D /* ofxCvShortImage.cpp in Sources */,
 				A87CBD4266C65E8EC8D637BF /* ofxARToolkitPlus.cpp in Sources */,
 				DFBEEF661B68F2780014567F /* tinyxmlerror.cpp in Sources */,

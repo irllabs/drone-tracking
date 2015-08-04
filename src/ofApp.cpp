@@ -2,11 +2,11 @@
 
 void ofApp::setup(){
     
-    ofSetWindowShape(1080, 540);
+    ofSetWindowShape(1280, 720);
     ofSetFullscreen(false);
     ofDisableSmoothing();
     
-    camW = 640*1.5; camH = 480*1.5;
+    camW = 640*2.0; camH = 480*2.0;
     
     if(USE_LIVE_FEED) {
         // setup camera
@@ -32,6 +32,8 @@ void ofApp::setup(){
     
     nTrainingSamples = 0;
     
+    threshold = 77;
+    
     sound.loadSound("camera.mp3");
     
     classificationData.load("classificationTrainingData.xml");
@@ -53,11 +55,11 @@ void ofApp::update(){
     artkGrayImage = colorImage;
     
     // find artk trackers
-    artkGrayImage.threshold(15);
+    artkGrayImage.threshold(threshold);
     artk.update(artkGrayImage.getPixels());
     
     // find contours
-    contourGrayImage.threshold(15);
+    contourGrayImage.threshold(threshold);
     contourGrayImage.invert();
     
     contourFinder.setMinArea(100);
@@ -253,9 +255,9 @@ void ofApp::draw(){
         ofSetColor(255,0,0);
         ofDrawBitmapString("    "
                            +ofToString(id)+" "
+                           +ofToString(drone.droneClass)+" "
                            +ofToString(drone.altitude)+" "
-                           +ofToString(drone.ticksSinceLastDetection)+" "
-                           +ofToString(drone.droneClass),
+                           +ofToString(drone.ticksSinceLastDetection),
                            drone.position.x,
                            drone.position.y);
         
@@ -360,13 +362,6 @@ void ofApp::keyReleased(int key) {
         
         // save currently tracked drone data as xml
         writeSceneFrameXML();
-        
-        // save camera feed image as well
-        if(USE_LIVE_FEED) {
-            ofImage i;
-            i.setFromPixels(liveCam.getPixels(), camW, camH, OF_IMAGE_COLOR);
-            i.saveImage("test"+ofGetTimestampString()+".png");
-        }
         
         // start the 'camera flash' (just for fun)
         flashTimer = 255;

@@ -8,7 +8,7 @@
 #include "ofxXmlSettings.h"
 
 #define TRACKED_DRONE_TIMEOUT 30
-#define IMG_DRAW_SCALE 1
+#define IMG_DRAW_SCALE 0.75
 #define CV_PREVIEW_SCALE 0.1
 #define USE_LIVE_FEED true
 
@@ -62,6 +62,8 @@ public:
     int nTrainingSamples;
     
     float flashTimer;
+    
+    int threshold;
     
     ofVideoGrabber liveCam;
     ofImage camSnapshot;

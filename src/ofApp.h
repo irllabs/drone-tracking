@@ -7,12 +7,12 @@
 #include "ofxLearn.h"
 #include "ofxXmlSettings.h"
 
-#define CAM_IMG_SCALE 1.5
+#define CAM_IMG_SCALE 2.0
 #define TRACKED_DRONE_TIMEOUT 30
 #define SCALE_SIZE 1.35
 #define ORIENTATION_VEC_DRAW_LEN 3.0
 #define IMG_DRAW_SCALE 0.75
-#define CV_PREVIEW_SCALE 0.1
+#define CV_PREVIEW_SCALE 0.4
 #define USE_LIVE_FEED true
 
 class TrackedDrone {
@@ -30,6 +30,7 @@ public:
     
     int trackerContourID;
     int classifierContourID;
+    int altitudeContourID;
     
     int droneClass;
     

@@ -82,8 +82,13 @@ void ofApp::update(){
     int nMarkersDetected = artk.getNumDetectedMarkers();
     for(int i = 0; i < nMarkersDetected; i++) {
         
-        ofPoint position = artk.getDetectedMarkerCenter(i);
+        TrackedDrone drone;
+        
+        // get the unique id of this marker
         int id = artk.getMarkerID(i);
+        
+        // get the position of this marker
+        drone.position = artk.getDetectedMarkerCenter(i);
         
         // get the matrix for this marker from artk
         ofMatrix4x4 h = artk.getOrientationMatrix(i);
@@ -102,106 +107,113 @@ void ofApp::update(){
         ofMatrix4x4 hom = artk.getHomography(i, displayImageCorners);
         
         // decompose matrix to get quaternion
-        //h.decompose(v, rotation, s, so);
         hom.decompose(v, rotation, s, so);
         
         // do lots of trig or something to find z-rotation from quaternion
-        double orientation = atan2(2*(rotation.x()*rotation.y()+rotation.w()*rotation.z()),rotation.w()*rotation.w()+rotation.x()*rotation.x()-rotation.y()*rotation.y()-rotation.z()*rotation.z());
+        // which we use for the drone's orientation, and then find a more
+        // stable orientation by finding the most similar angle from the
+        // marker's corners which is very stable ...
+        float noisyOrientation = atan2(2*(rotation.x()*rotation.y()+rotation.w()*rotation.z()),rotation.w()*rotation.w()+rotation.x()*rotation.x()-rotation.y()*rotation.y()-rotation.z()*rotation.z());
+        
+        float betterOrientation = noisyOrientation;
+        float nearestAngleAmt = INT_MAX;
+        vector<ofPoint> orientationCorners;
+        artk.getDetectedMarkerCorners(id, orientationCorners);
+        for(int i = 0; i < orientationCorners.size(); i++) {
+            int ni = i+1;
+            if(ni == 4) ni = 0;
+            float cornerAngle = -atan2(orientationCorners[ni].x-orientationCorners[i].x,orientationCorners[ni].y-orientationCorners[i].y);
+            float angleDist = abs(noisyOrientation-cornerAngle);
+            // i'm sleepy
+            if(angleDist < nearestAngleAmt) {
+                betterOrientation = cornerAngle;
+                nearestAngleAmt = angleDist;
+            }
+        }
+        drone.orientation = betterOrientation;
         
         // find tracker contour (should just be a square)
-        int trackerContourID = -1;
+        drone.trackerContourID = -1;
         for(int c = 0; c < contourFinder.getContours().size(); c++) {
             ofPolyline contour = contourFinder.getPolyline(c);
-            if(contour.inside(position)) {
-                trackerContourID = c;
+            if(contour.inside(drone.position)) {
+                drone.trackerContourID = c;
             }
         }
         
         // find the tracker size from the tracker contour
-        float size = 0;
-        if(trackerContourID != -1) {
-            ofPolyline contour = contourFinder.getPolyline(trackerContourID);
+        drone.size = 0;
+        if(drone.trackerContourID != -1) {
+            ofPolyline contour = contourFinder.getPolyline(drone.trackerContourID);
             
             for(int p = 0; p < contour.size(); p++) {
-                float d = (contour.getVertices()[p] - position).length();
+                float d = (contour.getVertices()[p] - drone.position).length();
                 d = abs(d);
-                if(d > size) {
-                    size = d;
+                if(d > drone.size) {
+                    drone.size = d;
                 }
             }
         }
-        size *= SCALE_SIZE; // new drone markers have bigger margins
+        drone.size *= SCALE_SIZE; // nima's new drone markers have bigger margins
         
         // find the contour of this drone's classifier
-        int classifierContourID = -1;
-        if(trackerContourID != -1) {
-            float cx = position.x + cos(orientation-PI/2)*size;
-            float cy = position.y + sin(orientation-PI/2)*size;
+        drone.classifierContourID = -1;
+        if(drone.trackerContourID != -1) {
+            float cx = drone.position.x + cos(drone.orientation-PI/2)*drone.size;
+            float cy = drone.position.y + sin(drone.orientation-PI/2)*drone.size;
             ofPoint classifierCenter = ofPoint(cx,cy);
                                                
             for(int c = 0; c < contourFinder.getContours().size(); c++) {
                 ofPolyline contour = contourFinder.getPolyline(c);
                 if(contour.inside(classifierCenter)) {
-                    classifierContourID = c;
+                    drone.classifierContourID = c;
                 }
             }
         }
         
         // find the altitude of this drone
-        int altitudeContourID = -1;
-        if(trackerContourID != -1) {
-            float cx = position.x + cos(orientation+PI/2)*size;
-            float cy = position.y + sin(orientation+PI/2)*size;
+        drone.altitudeContourID = -1;
+        if(drone.trackerContourID != -1) {
+            float cx = drone.position.x + cos(drone.orientation+PI/2)*drone.size*0.8;
+            float cy = drone.position.y + sin(drone.orientation+PI/2)*drone.size*0.8;
             ofPoint altitudeCenter = ofPoint(cx,cy);
             
             for(int c = 0; c < contourFinder.getContours().size(); c++) {
                 ofPolyline contour = contourFinder.getPolyline(c);
                 if(contour.inside(altitudeCenter)) {
-                    altitudeContourID = c;
+                    drone.altitudeContourID = c;
                 }
             }
         }
-        float altitude = 0;
-        if(altitudeContourID != -1) {
-            ofPolyline altitudeContour = contourFinder.getPolyline(altitudeContourID);
+        drone.altitude = 0;
+        if(drone.altitudeContourID != -1) {
+            ofPolyline altitudeContour = contourFinder.getPolyline(drone.altitudeContourID);
             float farthestDistance = 0;
             ofPoint farthestDistancePoint;
             for(int p = 0; p < altitudeContour.size(); p++) {
-                float d = (altitudeContour.getVertices()[p]-position).length();
+                float d = (altitudeContour.getVertices()[p]-drone.position).length();
                 if(d > farthestDistance) {
                     farthestDistance = d;
                     farthestDistancePoint = altitudeContour.getVertices()[p];
                 }
             }
-            altitude = farthestDistancePoint.angle(altitudeContour.getCentroid2D());
+            drone.altitude = farthestDistancePoint.angle(altitudeContour.getCentroid2D());
         }
         
         // classify this drone
         ofPolyline classifierContour;
-        int droneClass = -1;
-        if(classifierContourID != -1) {
+        drone.droneClass = -1;
+        if(drone.classifierContourID != -1) {
             
-            classifierContour = contourFinder.getPolyline(classifierContourID);
+            classifierContour = contourFinder.getPolyline(drone.classifierContourID);
             
-            droneClass = classifyContour(contourToClassifiableVector(classifierContour, orientation, position));
+            drone.droneClass = classifyContour(contourToClassifiableVector(classifierContour, drone.orientation, drone.position));
             
         }
         
         // update this drone's data in the list
-        TrackedDrone drone;
-            drone.position = position;
-            drone.orientation = orientation;
-            drone.altitude = altitude;
-        
-            drone.detected = true;
-            drone.ticksSinceLastDetection = 0;
-        
-            drone.size = size;
-        
-            drone.trackerContourID = trackerContourID;
-            drone.classifierContourID = classifierContourID;
-        
-            drone.droneClass = droneClass;
+        drone.detected = true;
+        drone.ticksSinceLastDetection = 0;
         trackedDrones[id] = drone;
         
     }
@@ -240,7 +252,7 @@ void ofApp::draw(){
     }
     
     // draw thresholded cv image
-    artkGrayImage.draw(0, ofGetHeight()-camH*CV_PREVIEW_SCALE,
+    liveCam.draw(0, ofGetHeight()-camH*CV_PREVIEW_SCALE,
                        camW*CV_PREVIEW_SCALE, camH*CV_PREVIEW_SCALE);
     
     ofPushMatrix();
@@ -274,7 +286,15 @@ void ofApp::draw(){
                drone.position.y + sin(drone.orientation)*drone.size*ORIENTATION_VEC_DRAW_LEN);
         ofSetLineWidth(1);
         
-        // draw the contour of this drone's tracker
+        // draw the marker's corners
+        vector<ofPoint> corners;
+        artk.getDetectedMarkerCorners(id, corners);
+        for(int i = 0; i < corners.size(); i++) {
+            ofSetColor(255,0,255);
+            ofCircle(corners[i].x, corners[i].y, 5);
+        }
+        
+        // draw the contour of this drone's marker
         if(drone.trackerContourID != -1) {
             ofPolyline contour = contourFinder.getPolyline(drone.trackerContourID);
             ofSetColor(255, 0, 0);
@@ -283,35 +303,15 @@ void ofApp::draw(){
         
         // draw the contour of this drone's classifier
         if(drone.classifierContourID != -1) {
-            ofPolyline contour = contourFinder.getPolyline(drone.classifierContourID);
-            ofPolyline contourResampled = contour.getResampledByCount(10);
-            
-            // draw closest point on contour to center of tracker
-            int closestIndex = -1;
-            float closestPointDistance = INT32_MAX;
-            for(int p = 0; p < contourResampled.getVertices().size(); p++) {
-                float d = (contourResampled.getVertices()[p]-drone.position).length();
-                if(d < closestPointDistance) {
-                    closestPointDistance = d;
-                    closestIndex = p;
-                }
-            }
-            
-            if(closestIndex != -1) {
-                ofPoint closestPoint = contourResampled.getVertices()[closestIndex];
-                ofSetColor(0, 0, 255);
-                ofCircle(closestPoint.x, closestPoint.y, 5);
-            }
-            
-            // make sure contour is facing correct direction
-            ofPoint centroid = contourResampled.getCentroid2D();
-            for(int p = 0; p < contourResampled.size(); p++) {
-                contourResampled.getVertices()[p].rotate(drone.orientation*-57.2,
-                                                         centroid,
-                                                         ofVec3f(0,0,1));
-            }
             ofSetColor(0, 255, 0);
-            contourResampled.draw();
+            contourFinder.getPolyline(drone.classifierContourID).draw();
+            
+        }
+        
+        // draw the contour of this drone's altitude meter arrow
+        if(drone.altitudeContourID != -1) {
+            ofSetColor(0, 255, 0);
+            contourFinder.getPolyline(drone.altitudeContourID).draw();
             
         }
         

@@ -38,6 +38,7 @@ void ofApp::setup(){
     sound.loadSound("camera.mp3");
     
     classificationData.load("classificationTrainingData.xml");
+    trainClassifier();
     
 }
 void ofApp::update(){

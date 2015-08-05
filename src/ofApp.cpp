@@ -283,15 +283,6 @@ void ofApp::draw(){
         int id = iterator->first;
         TrackedDrone drone = iterator->second;
         
-        ofSetColor(255,0,0);
-        ofDrawBitmapString("    "
-                           +ofToString(id)+" "
-                           +ofToString(drone.droneClass)+" "
-                           +drone.altitudeClass+" "
-                           +ofToString(drone.ticksSinceLastDetection),
-                           drone.position.x,
-                           drone.position.y);
-        
         // draw a line in the direction that the tracker is facing
         ofSetLineWidth(2);
         ofSetColor(0,255,0);
@@ -300,14 +291,6 @@ void ofApp::draw(){
                drone.position.x + cos(drone.orientation-PI/2)*drone.size*ORIENTATION_VEC_DRAW_LEN,
                drone.position.y + sin(drone.orientation-PI/2)*drone.size*ORIENTATION_VEC_DRAW_LEN);
         ofSetLineWidth(1);
-        
-        // draw the marker's corners
-        vector<ofPoint> corners;
-        artk.getDetectedMarkerCorners(dronesCount, corners);
-        for(int i = 0; i < corners.size(); i++) {
-            ofSetColor(255,0,255);
-            ofCircle(corners[i].x, corners[i].y, 5);
-        }
         
         // draw the contour of this drone's marker
         if(drone.trackerContourID != -1) {
@@ -352,12 +335,28 @@ void ofApp::draw(){
         //droneImg.draw(0,0);
         ofPopMatrix();
         
+        // draw drone data
+        ofSetColor(255,0,0);
+        ofPushMatrix();
+        ofTranslate(-30, 0);
+        ofDrawBitmapString("class:"+ofToString(drone.droneClass),
+                           drone.position.x + cos(drone.orientation-PI/2)*drone.size*ORIENTATION_VEC_DRAW_LEN,
+                           drone.position.y + sin(drone.orientation-PI/2)*drone.size*ORIENTATION_VEC_DRAW_LEN);
+        ofDrawBitmapString("id:"+ofToString(id),
+                           drone.position.x + cos(drone.orientation)*drone.size*ORIENTATION_VEC_DRAW_LEN,
+                           drone.position.y + sin(drone.orientation)*drone.size*ORIENTATION_VEC_DRAW_LEN);
+        ofDrawBitmapString("alt:"+drone.altitudeClass,
+                           drone.position.x + cos(drone.orientation+PI/2)*drone.size*ORIENTATION_VEC_DRAW_LEN,
+                           drone.position.y + sin(drone.orientation+PI/2)*drone.size*ORIENTATION_VEC_DRAW_LEN);
+        ofDrawBitmapString("("+ofToString((int)drone.position.x)+
+                           ","+ofToString((int)drone.position.y)+")",
+                           drone.position.x + cos(drone.orientation+PI)*drone.size*ORIENTATION_VEC_DRAW_LEN,
+                           drone.position.y + sin(drone.orientation+PI)*drone.size*ORIENTATION_VEC_DRAW_LEN);
+        ofPopMatrix();
+        
         dronesCount++;
         
     }
-    
-    //ofSetColor(255,0,0);
-    //contourFinder.draw();
     
     ofPopMatrix();
     

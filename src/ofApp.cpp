@@ -6,7 +6,8 @@ void ofApp::setup(){
     ofSetFullscreen(false);
     ofDisableSmoothing();
     
-    camW = 640*2.0; camH = 480*2.0;
+    camW = 640*CAM_IMG_SCALE;
+    camH = 480*CAM_IMG_SCALE;
     
     if(USE_LIVE_FEED) {
         // setup camera
@@ -129,12 +130,14 @@ void ofApp::update(){
                 }
             }
         }
+        size *= SCALE_SIZE; // new drone markers have bigger margins
         
         // find the contour of this drone's classifier
         int classifierContourID = -1;
         if(trackerContourID != -1) {
-            ofPoint classifierCenter = ofPoint(position.x + cos(orientation)*size,
-                                               position.y + sin(orientation)*size);
+            float cx = position.x + cos(orientation-PI/2)*size;
+            float cy = position.y + sin(orientation-PI/2)*size;
+            ofPoint classifierCenter = ofPoint(cx,cy);
                                                
             for(int c = 0; c < contourFinder.getContours().size(); c++) {
                 ofPolyline contour = contourFinder.getPolyline(c);
@@ -147,8 +150,9 @@ void ofApp::update(){
         // find the altitude of this drone
         int altitudeContourID = -1;
         if(trackerContourID != -1) {
-            ofPoint altitudeCenter = ofPoint(position.x + cos(orientation)*size,
-                                               position.y + sin(orientation)*size);
+            float cx = position.x + cos(orientation+PI/2)*size;
+            float cy = position.y + sin(orientation+PI/2)*size;
+            ofPoint altitudeCenter = ofPoint(cx,cy);
             
             for(int c = 0; c < contourFinder.getContours().size(); c++) {
                 ofPolyline contour = contourFinder.getPolyline(c);
@@ -266,8 +270,8 @@ void ofApp::draw(){
         ofSetColor(0,255,0);
         ofLine(drone.position.x,
                drone.position.y,
-               drone.position.x + cos(drone.orientation)*drone.size,
-               drone.position.y + sin(drone.orientation)*drone.size);
+               drone.position.x + cos(drone.orientation)*drone.size*ORIENTATION_VEC_DRAW_LEN,
+               drone.position.y + sin(drone.orientation)*drone.size*ORIENTATION_VEC_DRAW_LEN);
         ofSetLineWidth(1);
         
         // draw the contour of this drone's tracker
@@ -281,7 +285,6 @@ void ofApp::draw(){
         if(drone.classifierContourID != -1) {
             ofPolyline contour = contourFinder.getPolyline(drone.classifierContourID);
             ofPolyline contourResampled = contour.getResampledByCount(10);
-            
             
             // draw closest point on contour to center of tracker
             int closestIndex = -1;

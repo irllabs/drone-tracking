@@ -118,7 +118,7 @@ void ofApp::update(){
         float betterOrientation = noisyOrientation;
         float nearestAngleAmt = INT_MAX;
         vector<ofPoint> orientationCorners;
-        artk.getDetectedMarkerCorners(id, orientationCorners);
+        artk.getDetectedMarkerCorners(i, orientationCorners);
         for(int i = 0; i < orientationCorners.size(); i++) {
             int ni = i+1;
             if(ni == 4) ni = 0;
@@ -197,7 +197,22 @@ void ofApp::update(){
                     farthestDistancePoint = altitudeContour.getVertices()[p];
                 }
             }
-            drone.altitude = farthestDistancePoint.angle(altitudeContour.getCentroid2D());
+            
+            // so sleepy
+            float altitude = atan2(drone.position.y-farthestDistancePoint.y,
+                                   drone.position.x-farthestDistancePoint.x);
+            altitude -= drone.orientation;
+            if(altitude < 0) altitude+=2*PI;
+            drone.altitude = altitude;
+            
+            if(drone.altitude < 4.7) {
+                drone.altitudeClass = 'L';
+            } else if(drone.altitude < 4.85) {
+                drone.altitudeClass = 'M';
+            } else {
+                drone.altitudeClass = 'H';
+            }
+            
         }
         
         // classify this drone
@@ -272,23 +287,23 @@ void ofApp::draw(){
         ofDrawBitmapString("    "
                            +ofToString(id)+" "
                            +ofToString(drone.droneClass)+" "
-                           +ofToString(drone.altitude)+" "
+                           +drone.altitudeClass+" "
                            +ofToString(drone.ticksSinceLastDetection),
                            drone.position.x,
                            drone.position.y);
         
         // draw a line in the direction that the tracker is facing
-        ofSetLineWidth(3);
+        ofSetLineWidth(2);
         ofSetColor(0,255,0);
         ofLine(drone.position.x,
                drone.position.y,
-               drone.position.x + cos(drone.orientation)*drone.size*ORIENTATION_VEC_DRAW_LEN,
-               drone.position.y + sin(drone.orientation)*drone.size*ORIENTATION_VEC_DRAW_LEN);
+               drone.position.x + cos(drone.orientation-PI/2)*drone.size*ORIENTATION_VEC_DRAW_LEN,
+               drone.position.y + sin(drone.orientation-PI/2)*drone.size*ORIENTATION_VEC_DRAW_LEN);
         ofSetLineWidth(1);
         
         // draw the marker's corners
         vector<ofPoint> corners;
-        artk.getDetectedMarkerCorners(id, corners);
+        artk.getDetectedMarkerCorners(dronesCount, corners);
         for(int i = 0; i < corners.size(); i++) {
             ofSetColor(255,0,255);
             ofCircle(corners[i].x, corners[i].y, 5);

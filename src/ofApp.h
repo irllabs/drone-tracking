@@ -33,6 +33,7 @@ public:
     int altitudeContourID;
     
     int droneClass;
+    string altitudeClass;
     
 };
 
